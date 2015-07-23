@@ -1,9 +1,7 @@
-Access kobocat From Google Apps
-======================================
+### Use Google Spreadsheet to access kobocat data 
 
-This is experimental code based on work done by [craigappl](https://github.com/craigappl). 
 
-This repository contains code that allows organizations to push and pull information from kobocat into Google Apps using Google Apps Script. 
+This is experimental code based on work done by [craigappl](https://github.com/craigappl). This repository contains code that allows organizations to push and pull information from  [kobocat](https://github.com/kobotoolbox/kobocat) using Google Apps Script. 
 
 To pull data from kobocat to Google Spreadsheets, follow [these instructions](/Working_Examples/README.md).
 
