@@ -1,17 +1,17 @@
 //See ReadMe file for more information which can be found at 
-//https://github.com/craigappl/Access_Formhub_From_Google_Apps_Script/edit/master/Working_Examples/Update_Spreadsheet_README
+//https://github.com/kobotoolbox/kobocat-googleapps-scripts
 
 /* Declare global varibles that are used multiple times*/
 var app = UiApp.createApplication();//This creates the application which is used for setup
 var current_sheet = SpreadsheetApp.getActiveSpreadsheet(); //This is the current spreadsheet
-var checked_URL = ''; //This is a placeholder for the URL of the formhub form the user has selected during setup
+var checked_URL = ''; //This is a placeholder for the URL of the kobocat form the user has selected during setup
 
 /***** SECTION 1 - Everything from here to the next section is part of the Setup menu item *****/
 function setup(){
 //This function gets information from the user including authentication token and which form updates this sheet.
 
   
-  var description = app.createLabel('You must get your API Token from your user account by visiting http://formhub.org/YOUR-USERNAME/api-token', true);
+  var description = app.createLabel('You must get your API Token from your user account by visiting http://kc.kobotoolbox.org/YOUR-USERNAME/api-token', true);
   var grid = app.createGrid(3, 3);
   grid.setWidget(0, 0, app.createLabel('API Token: '));
   grid.setWidget(0, 1, app.createTextBox().setName('token'));
@@ -47,7 +47,7 @@ function saveToken(e){
   //Save the token and let the user know by message box
   ScriptProperties.setProperty('token', e.parameter.token);
   Browser.msgBox('Token Saved');
-  //Now, get the form list from formhub and ask the user which form is meant to update this sheet
+  //Now, get the form list from kobocat and ask the user which form is meant to update this sheet
   setupScriptProperties();//Get the URLs of each of the users forms
   askUser();//Now that the token is saved, ask the user which form is meant to update this sheet
 }
@@ -113,10 +113,10 @@ function check(e) {
 
 function setupScriptProperties(){
   
-  var json_array = getFormhubData('https://formhub.org/api/v1/forms');
+  var json_array = getkobocatData('https://kc.kobotoolbox.org/api/v1/forms');
   //Get the username from the json_array URL
-  var formhub_users = JSON.parse(UrlFetchApp.fetch('https://formhub.org/api/v1/users',getUrlFetchOptions()).getContentText());
-  var formhub_username = formhub_users[0]["username"];
+  var kobocat_users = JSON.parse(UrlFetchApp.fetch('https://kc.kobotoolbox.org/api/v1/users',getUrlFetchOptions()).getContentText());
+  var kobocat_username = kobocat_users[0]["username"];
   
   //Assign the script properties
   
@@ -129,7 +129,7 @@ function setupScriptProperties(){
   }
   //Save the number of forms
   ScriptProperties.setProperty('num_forms', j);
-  ScriptProperties.setProperty('formhub_username', formhub_username);
+  ScriptProperties.setProperty('kobocat_username', kobocat_username);
   //Logger.log(ScriptProperties.getProperty('num_forms'));
 }
 
@@ -142,7 +142,7 @@ Browser.msgBox("Setup Complete");
 
 /***** SECTION 2 - Everything from here to the next section is part of the 'Import Data' menu item *****/
 function ImportData(){
-//This function imports data from formhub to the existing spreadsheet
+//This function imports data from kobocat to the existing spreadsheet
 
   //First check to see if the setup has been run by evaluating the first form's name. If it's null run setup
   if(ScriptProperties.getProperty('form0name')== null){
@@ -150,10 +150,10 @@ function ImportData(){
   }else{  
     //See if an update is needed
     if(UpdateNeeded()){
-      //if needed, get the data from formhub
+      //if needed, get the data from kobocat
       
-      //Call the function getFormhubData but first, change the URL from /forms/ to /data/
-      var form_data_JSON = getFormhubData(checked_URL.replace('/forms/','/data/'));//Note this presently returns all data
+      //Call the function getkobocatData but first, change the URL from /forms/ to /data/
+      var form_data_JSON = getkobocatData(checked_URL.replace('/forms/','/data/'));//Note this presently returns all data
       
       //Use the setRowsData function (SECTION 5) to write the data to the sheet
       setRowsData(current_sheet.getActiveSheet(), form_data_JSON);
@@ -180,8 +180,8 @@ function UpdateNeeded(){
       }
     }    
         
-    //Connect to formhub and get the form list
-    var list_of_forms_JSON = getFormhubData('https://formhub.org/api/v1/forms');
+    //Connect to kobocat and get the form list
+    var list_of_forms_JSON = getkobocatData('https://kc.kobotoolbox.org/api/v1/forms');
     
     //Match the checked_formname to the form in the list_of_forms_JSON and get the number of submissions
     for (var i=0; i < list_of_forms_JSON.length; i++){
@@ -202,9 +202,9 @@ function UpdateNeeded(){
     return Update_Needed;
 }
 
-/***** SECTION 3 - Communicating with the formhub server (used more than once) getFormhubData and Token Authorization Parameters *****/
+/***** SECTION 3 - Communicating with the kobocat server (used more than once) getkobocatData and Token Authorization Parameters *****/
 
-function getFormhubData(getDataURL){
+function getkobocatData(getDataURL){
   //First, we have to translate the 
   var list_of_forms = UrlFetchApp.fetch(getDataURL,getUrlFetchOptions()).getContentText();  //provides a TEXT list of form names and URLs
   var json_array = JSON.parse(list_of_forms); //parse to JSON so we can work with the data in an array
@@ -214,7 +214,7 @@ function getFormhubData(getDataURL){
 }
 
 function getUrlFetchOptions() {
-//This function returns the Authorization headers with token information to formhub
+//This function returns the Authorization headers with token information to kobocat
   return {
             "headers" : {
                          "Authorization" : "Token " + ScriptProperties.getProperty('token'),
@@ -274,5 +274,5 @@ function onOpen() {
   { name : "Import Data",
     functionName : "ImportData"
    }];
-  sheet.addMenu("Update from Formhub", entries);
+  sheet.addMenu("Update from kobocat", entries);
 };
