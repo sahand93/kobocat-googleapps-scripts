@@ -1,3 +1,5 @@
+### Note: These settings do not currently work on kobocat##
+
 These scripts use the REST Services JSON POST function of formhub.
 
 What does each file do?
