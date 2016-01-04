@@ -10,7 +10,7 @@ The Update_Spreadsheet working example uses token authentication to access the k
 1. Export your (blank) dataset as an XLS file
 1. Navigate to Google Drive, upload the XLS file, then click Open in Google Sheets to edit it
 1. Click 'Tools>Script Editor...'. If you are presented with a welcome screen, click Blank Project.
-1. Delete any code in the script editor and paste in the code from [this file](Working_Examples/Update_Spreadsheet) into the editor.
+1. Delete any code in the script editor and paste in the code from [this file](Update_Spreadsheet) into the editor.
 1. Click the menu item Run>OnOpen.
 1.  Select the menu item File > Save all. Name your new script "Update from KoBoToolbox" and click OK.
 1. Complete the authorization and run the function again
