@@ -10,16 +10,17 @@ The Update_Spreadsheet working example uses token authentication to access the k
 1. Export your (blank) dataset as an XLS file
 1. Navigate to Google Drive, upload the XLS file, then click Open in Google Sheets to edit it
 1. Click 'Tools>Script Editor...'. If you are presented with a welcome screen, click Blank Project.
-1. Delete any code in the script editor and paste in the code from [this file](Update_Spreadsheet) into the editor.
+1. In a separate tab open our import script and copy the entire code to your clipboard. Choose the right file depending on your server:  For kc.humanitarianresponse.info use [this file](Update_spreadsheet_hr_info) | For kc.kobotoolbox.org use [this file](Update_Spreadsheet) 
+1. Back in your Google Sheet, delete any code in the script editor and paste in the code (see previous step) into the editor.
 1. Click the menu item Run>OnOpen.
-1.  Select the menu item File > Save all. Name your new script "Update from KoBoToolbox" and click OK.
+1. Select the menu item File > Save all. Name your new script "Update from KoBoToolbox" and click OK.
 1. Complete the authorization and run the function again
 1. A new menu item will appear called 'Update from kobocat'
 
 
 ## Setup:
-1. In a separate browser window, navigate to https://kc.kobotoolbox.org/YOURUSERNAME/api-token
-1. Highlight and copy the token using Ctrl-C
+1. In a separate browser window, navigate to https://kc.kobotoolbox.org/YOURUSERNAME/api-token or https://kc.humanitarianresponse.info/YOURUSERNAME/api-token (depending on your server)
+1. Highlight and copy the token to the clipboard
 1. Click 'Update from kobocat>Setup'
 1. Paste your token code and click Submit
 1. Click 'OK' to the popup
